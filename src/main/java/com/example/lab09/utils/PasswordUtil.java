@@ -8,12 +8,12 @@ public class PasswordUtil {
 
     public static String hashPassword(String password) {
         try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256"); // Using SHA-256 for hashing
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] encodedhash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
             return bytesToHex(encodedhash);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
-            return null; // Handle error appropriately
+            return null;
         }
     }
 

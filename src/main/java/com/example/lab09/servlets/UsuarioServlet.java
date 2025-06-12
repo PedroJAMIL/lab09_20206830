@@ -56,7 +56,6 @@ public class UsuarioServlet extends HttpServlet {
             String pass = request.getParameter("pass"); //
             String confirmPass = request.getParameter("confirmPass");
 
-            // Basic Validation (more robust validation should be done in a separate service layer)
             if (nombre == null || nombre.trim().isEmpty() ||
                     apellido == null || apellido.trim().isEmpty() ||
                     dni == null || dni.trim().isEmpty() ||
@@ -67,7 +66,7 @@ public class UsuarioServlet extends HttpServlet {
                 return;
             }
 
-            if (!dni.matches("\\d{8}")) { // DNI must be 8 digits
+            if (!dni.matches("\\d{8}")) {
                 request.setAttribute("error", "DNI debe ser un número de 8 dígitos.");
                 request.getRequestDispatcher("/com/example/lab09/jsp/crearUsuario.jsp").forward(request, response);
                 return;
@@ -79,13 +78,12 @@ public class UsuarioServlet extends HttpServlet {
                 return;
             }
 
-            if (pass.length() < 8 || !pass.matches(".*[a-zA-Z].*") || !pass.matches(".*\\d.*")) { // Password must have letters and numbers, min 8 chars
+            if (pass.length() < 8 || !pass.matches(".*[a-zA-Z].*") || !pass.matches(".*\\d.*")) {
                 request.setAttribute("error", "La contraseña debe tener al menos 8 caracteres y contener letras y números.");
                 request.getRequestDispatcher("/com/example/lab09/jsp/crearUsuario.jsp").forward(request, response);
                 return;
             }
 
-            // Check for uniqueness
             if (!usuarioDAO.DniUNICO(dni)) {
                 request.setAttribute("error", "El DNI ingresado ya está registrado.");
                 request.getRequestDispatcher("/com/example/lab09/jsp/crearUsuario.jsp").forward(request, response);

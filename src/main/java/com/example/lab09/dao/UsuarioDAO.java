@@ -18,7 +18,7 @@ public class UsuarioDAO {
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, correo);
-            pstmt.setString(2, PasswordUtil.hashPassword(password)); // Password must be hashed
+            pstmt.setString(2, PasswordUtil.hashPassword(password));
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
                 usuario = new Usuario();
@@ -37,17 +37,17 @@ public class UsuarioDAO {
 
     public List<Usuario> traertodoslosUsuarios() {
         List<Usuario> usuarios = new ArrayList<>();
-        String sql = "SELECT idusuarios, nombre, apellido, dni, correo FROM usuarios"; //
+        String sql = "SELECT idusuarios, nombre, apellido, dni, correo FROM usuarios";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
             while (rs.next()) {
                 Usuario usuario = new Usuario();
-                usuario.setIdusuarios(rs.getInt("idusuarios")); //
-                usuario.setNombre(rs.getString("nombre")); //
-                usuario.setApellido(rs.getString("apellido")); //
-                usuario.setDni(rs.getString("dni")); //
-                usuario.setCorreo(rs.getString("correo")); //
+                usuario.setIdusuarios(rs.getInt("idusuarios"));
+                usuario.setNombre(rs.getString("nombre"));
+                usuario.setApellido(rs.getString("apellido"));
+                usuario.setDni(rs.getString("dni"));
+                usuario.setCorreo(rs.getString("correo"));
                 usuarios.add(usuario);
             }
         } catch (SQLException e) {
@@ -61,12 +61,12 @@ public class UsuarioDAO {
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            if (CorreoUNICO(usuario.getCorreo()) && DniUNICO(usuario.getDni())) { // Validate unique correo and DNI
-                pstmt.setString(1, usuario.getNombre()); //
-                pstmt.setString(2, usuario.getApellido()); //
-                pstmt.setString(3, PasswordUtil.hashPassword(usuario.getPass())); // Password must be hashed
-                pstmt.setString(4, usuario.getDni()); //
-                pstmt.setString(5, usuario.getCorreo()); //
+            if (CorreoUNICO(usuario.getCorreo()) && DniUNICO(usuario.getDni())) {
+                pstmt.setString(1, usuario.getNombre());
+                pstmt.setString(2, usuario.getApellido());
+                pstmt.setString(3, PasswordUtil.hashPassword(usuario.getPass()));
+                pstmt.setString(4, usuario.getDni());
+                pstmt.setString(5, usuario.getCorreo());
                 int rowsAffected = pstmt.executeUpdate();
                 return rowsAffected > 0;
             }
@@ -88,7 +88,7 @@ public class UsuarioDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false; // Assume not unique on error
+        return false;
     }
 
     public boolean CorreoUNICO(String correo) {
@@ -103,6 +103,6 @@ public class UsuarioDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false; // Assume not unique on error
+        return false;
     }
 }

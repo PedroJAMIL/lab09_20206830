@@ -52,7 +52,7 @@ public class TransaccionServlet extends HttpServlet {
                     System.err.println("Invalid transaction ID for deletion: " + idTransaccionStr);
                 }
             }
-            // After deletion, redirect to the transaction list view
+
             response.sendRedirect(request.getContextPath() + "/transacciones");
         }
     }
@@ -68,10 +68,10 @@ public class TransaccionServlet extends HttpServlet {
         String path = request.getServletPath();
 
         if ("/transacciones/crear".equals(path)) {
-            String titulo = request.getParameter("titulo"); //
-            String montoStr = request.getParameter("monto"); //
-            String tipo = request.getParameter("tipo"); //
-            String descripcion = request.getParameter("descripcion"); //
+            String titulo = request.getParameter("titulo");
+            String montoStr = request.getParameter("monto");
+            String tipo = request.getParameter("tipo");
+            String descripcion = request.getParameter("descripcion");
 
             // Basic Validation
             if (titulo == null || titulo.trim().isEmpty() ||
@@ -85,7 +85,7 @@ public class TransaccionServlet extends HttpServlet {
             double monto;
             try {
                 monto = Double.parseDouble(montoStr);
-                if (monto <= 0) { // Monto must be greater than 0
+                if (monto <= 0) {
                     request.setAttribute("error", "El monto debe ser un número mayor a 0.");
                     request.getRequestDispatcher("/com/example/lab09/jsp/crearTransaccion.jsp").forward(request, response);
                     return;
@@ -96,7 +96,7 @@ public class TransaccionServlet extends HttpServlet {
                 return;
             }
 
-            if (!"ingreso".equalsIgnoreCase(tipo) && !"egreso".equalsIgnoreCase(tipo)) { // Tipo must be 'ingreso' or 'egreso'
+            if (!"ingreso".equalsIgnoreCase(tipo) && !"egreso".equalsIgnoreCase(tipo)) {
                 request.setAttribute("error", "Tipo de transacción inválido. Debe ser 'ingreso' o 'egreso'.");
                 request.getRequestDispatcher("/com/example/lab09/jsp/crearTransaccion.jsp").forward(request, response);
                 return;
